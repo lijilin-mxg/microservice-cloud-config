@@ -1,0 +1,74 @@
+#注意：如果在记事本上编写，下面的缩进不要使用Tab来缩进，不然报错
+spring:
+  profiles:
+    active: dev # 激活开发环境配置
+---
+server:
+  port: 8001
+
+mybatis:
+  config-location: classpath:mybatis/mybatis.cfg.xml
+  type-aliases-package: com.mengxuegu.springcloud.entities
+  mapper-locations: classpath:mybatis/mapper/**/*.xml
+
+spring:
+  profiles: dev
+  application:
+    name: microservice-product
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: root
+    password: root
+    url: jdbc:mysql://127.0.0.1:3306/springcloud_db01?useUnicode=true&charaterEncoding=utf8&useSSl=false&serverTimezone=GMT%2B8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    dbcp2:
+      initial-size: 5
+      min-idle: 5
+      max-total: 5
+      max-wait-millis: 150
+eureka:
+  client:
+    register-with-eureka: true #服务注册开关
+    fetch-registry: true #服务发现开关
+    service-url: #注册到的eureka中心，多个用逗号分隔
+      #defaultZone: http://localhost:6001/eureka
+      defaultZone: http://eureka6001.com:6001/eureka,http://eureka6002.com:6002/eureka
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true #访问路径显示为Ip
+---
+server:
+  port: 8001
+
+mybatis:
+  config-location: classpath:mybatis/mybatis.cfg.xml
+  type-aliases-package: com.mengxuegu.springcloud.entities
+  mapper-locations: classpath:mybatis/mapper/**/*.xml
+
+spring:
+  profiles: prod
+  application:
+    name: microservice-product
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: root
+    password: root
+    url: jdbc:mysql://127.0.0.1:3306/springcloud_db02?useUnicode=true&charaterEncoding=utf8&useSSl=false&serverTimezone=GMT%2B8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    dbcp2:
+      initial-size: 5
+      min-idle: 5
+      max-total: 5
+      max-wait-millis: 150
+eureka:
+  client:
+    register-with-eureka: true #服务注册开关
+    fetch-registry: true #服务发现开关
+    service-url: #注册到的eureka中心，多个用逗号分隔
+      #defaultZone: http://localhost:6001/eureka
+      defaultZone: http://eureka6001.com:6001/eureka,http://eureka6002.com:6002/eureka
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true #访问路径显示为Ip
